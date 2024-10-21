@@ -32,28 +32,37 @@
         canvas {
             border: 1px solid #000;
         }
+
+        /* Nueva clase para el fondo de la sección de videos */
+        .video-section {
+            background-image: url('https://img.freepik.com/vector-gratis/fondo-amarillo-rayas-diagonales-negras-grunge_1017-25119.jpg'); /* Cambia la URL al fondo deseado */
+            background-size: cover;
+            padding: 20px;
+            border-radius: 10px; /* Agrega un borde redondeado si lo deseas */
+            margin: 20px auto;
+            max-width: 1000px; /* Limita el tamaño máximo */
+        }
     </style>
 </head>
 <body>
     <img src="https://cdnvb4.haiper.ai/jobs/6715d734d6b4233d0e6eb787/6715d7a6d6b4233d0e6eb7e4/3.jpg" alt="placeholder del poster">
     <h1>¡Todavía estamos en construcción!</h1>
-    <img src="https://www.shutterstock.com/image-illustration/3d-renderer-image-broken-brick-260nw-309836882.jpg" alt="Imagen de construcción">
-    <p>Para que no te quedes con las manos vacías, acá te dejo esto para que pases un mal rato(exclusivo para pc)</p>
+    <img src="https://www.shutterstock.com/image-illustration/3d-renderer-image-broken-brick-260nw-309836882.jpg" alt="placeholder del poster">
+    <p>Para que no te quedes con las manos vacías, acá te dejo esto para que pases un mal rato (exclusivo para PC)</p>
 
     <iframe src="https://jcw87.github.io/c2-sans-fight/"></iframe>
-    
 
-        <!-- Sección del tráiler -->
-    <section>
+    <!-- Sección del tráiler -->
+    <section class="video-section">
         <h2>Mira nuestro tráiler</h2>
-        <video controls>
-            <iframe width="80%" height="auto" src="https://drive.google.com/file/d/1eIR0qhmXvfZJgRoE-m7Jb71qR3TVeCe2/view?usp=sharing" frameborder="0" allowfullscreen></iframe>
-             Tu navegador no soporta la reproducción de videos.
+        <video controls width="80%">
+            <source src="https://drive.google.com/file/d/1eIR0qhmXvfZJgRoE-m7Jb71qR3TVeCe2/view?usp=sharing" type="video/mp4">
+            Tu navegador no soporta la reproducción de videos.
         </video>
     </section>
 
     <!-- Sección de cosas descartadas y bloopers -->
-    <section>
+    <section class="video-section">
         <h2>Bloopers y Cosas Descartadas</h2>
         <video controls>
             <source src="soy solo un hombre.mp4" type="video/mp4">
@@ -64,8 +73,10 @@
             Tu navegador no soporta la reproducción de videos.
         </video>
     </section>
- </body>
-</footer>
-    <h1>profe si llegas a leer esto ponenos 10 🙏</h1>
-</footer>
+    
+    <footer>
+        <h1>Profe, si llegas a leer esto ponenos 10 🙏</h1>
+    </footer>
+</body>
 </html>
+
