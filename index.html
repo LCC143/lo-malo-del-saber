@@ -8,86 +8,100 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f0f0f0; /* Color de fondo de respaldo */
+            background-color: #f0f0f0;
             padding: 50px;
-            background-image: url('https://image.slidesdocs.com/responsive-images/background/safety-production-construction-gradient-minimalist-powerpoint-background_04cb47df01__960_540.jpg'); /* Cambia esta URL a tu imagen de fondo */
-            background-size: cover; /* Asegura que la imagen cubra toda el área */
-            background-position: center; /* Centra la imagen */
-            background-repeat: no-repeat; /* Evita que la imagen se repita */
-        }
-        
-        video {
-            width: 80%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 700px; /* Incrementa la altura */
-            max-width: 1000px; /* Limita el tamaño máximo en pantallas grandes */
-            margin: 20px auto;
+            background-image: url('https://image.slidesdocs.com/responsive-images/background/safety-production-construction-gradient-minimalist-powerpoint-background_04cb47df01__960_540.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        h1 {
+        h1, h2 {
             color: #333;
         }
 
-        img {
-            width: 300px;
-            height: auto;
+        /* Estilo para los botones */
+        .button {
+            display: none; /* Ocultamos los botones inicialmente */
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.5s ease; /* Transición para el efecto fade-in */
         }
 
-        canvas {
-            border: 1px solid #000;
+        /* Fade-in effect */
+        .fade-in {
+            display: inline-block; /* Cambiamos a inline-block para aplicar el efecto */
+            opacity: 0; /* Inicialmente invisibles */
         }
 
-        /* Nueva clase para el fondo de la sección de videos */
-        .video-section {
-            background-image: url('https://img.freepik.com/vector-gratis/fondo-amarillo-rayas-diagonales-negras-grunge_1017-25119.jpg'); /* Cambia la URL al fondo deseado */
-            background-size: cover;
-            padding: 20px;
-            border-radius: 10px; /* Agrega un borde redondeado si lo deseas */
-            margin: 20px auto;
-            max-width: 1000px; /* Limita el tamaño máximo */
+        .fade-in.show {
+            opacity: 1; /* Hacemos visibles los botones */
+            display: inline-block; /* Aseguramos que se muestren */
         }
+
+        /* Sección de contenido */
+        .content-section {
+            margin-top: 20px;
+        }
+
+        /* Estilo para la sección de footer */
         .footer-section {
-            background-image: url('https://static.wikia.nocookie.net/clubpenguin/images/3/32/Custructions_Site.png/revision/latest/scale-to-width-down/250?cb=20130619104108'); /* Cambia la URL a tu imagen de fondo */
-            background-size: cover;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
             padding: 20px;
-            color: white; /* Cambia el color del texto para mejor legibilidad */
-            border-top: 2px solid #333; /* Borde superior para separarlo del contenido anterior */
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>¡Todavía estamos en construcción!</h1>
-    <img src="https://www.shutterstock.com/image-illustration/3d-renderer-image-broken-brick-260nw-309836882.jpg" alt="placeholder del poster">
-    <p>Para que no te quedes con las manos vacías, acá te dejo esto para que pases un mal rato (exclusivo para PC)</p>
+    <h1>¡Bienvenido a Nuestra Página!</h1>
 
-    <iframe src="https://jcw87.github.io/c2-sans-fight/"></iframe>
+    <!-- Botones -->
+    <div class="button fade-in" id="trailerButton">Acerca del Tráiler</div>
+    <div class="button fade-in" id="postersButton">Afiches</div>
+    <div class="button fade-in" id="extrasButton">Extras</div>
 
-<!-- Sección del tráiler -->
-<section class="video-section">
-    <h2>Mira nuestro tráiler</h2>
-    <iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</section>
-    <!-- Sección de cosas descartadas y bloopers -->
-    <section class="video-section">
-        <h2>Bloopers y Cosas Descartadas</h2>
-        <video controls>
-            <source src="soy solo un hombre.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de videos.
-        </video>
-        <video controls>
-            <source src="1017.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de videos.
-        </video>
-    </section> 
-    
-    <footer>
+    <div class="content-section" id="content"></div>
+
+    <footer class="footer-section">
         <h1>Profe, si llegas a leer esto ponenos 10 🙏</h1>
+        <p>&copy; 2024 Tu Nombre | <a href="#" style="color: white;">Términos de Servicio</a> | <a href="#" style="color: white;">Política de Privacidad</a></p>
     </footer>
+
+    <script>
+        // Función para mostrar los botones con efecto fade-in
+        function showButtons() {
+            const buttons = document.querySelectorAll('.fade-in');
+            buttons.forEach((button, index) => {
+                setTimeout(() => {
+                    button.classList.add('show');
+                }, index * 500); // 500 ms entre cada botón
+            });
+        }
+
+        // Llamamos a la función cuando la página se carga
+        window.onload = showButtons;
+
+        // Funcionalidad de los botones
+        document.getElementById('trailerButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = '<h2>Mira nuestro tráiler</h2><iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allowfullscreen></iframe>';
+        });
+
+        document.getElementById('postersButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = '<h2>Afiches</h2><p>Aquí irán los afiches de la película.</p>';
+        });
+
+        document.getElementById('extrasButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = '<h2>Extras</h2><p>Aquí irán los extras relacionados con la película.</p>';
+        });
+    </script>
 </body>
 </html>
+
 
