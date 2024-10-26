@@ -166,6 +166,14 @@
         </div>
     </div>
 
+    <div class="hacker-box">
+    <h2>Escribe tu código </h2>
+    <input type="text" id="secretCode" placeholder="Código secreto..." />
+    <button id="submitCode">Enviar</button>
+    <p id="codeMessage"></p>
+    </div>
+
+
     <script>
         function showButtons() {
             const buttons = document.querySelectorAll('.fade-in');
@@ -276,6 +284,28 @@
                 document.onmousemove = null;
             }
         }
+         const secretCodes = {
+        "codigo1": "¡Código 1 activado!",
+        "codigo2": "¡Código 2 activado!",
+        "codigo3": "¡Código 3 activado!",
+        "codigo4": "¡Código 4 activado!",
+        "codigo5": "¡Código 5 activado!"
+    };
+
+    document.getElementById('submitCode').addEventListener('click', function() {
+        const codeInput = document.getElementById('secretCode').value;
+        const message = document.getElementById('codeMessage');
+
+        if (secretCodes[codeInput]) {
+            message.textContent = secretCodes[codeInput];
+            // Aquí puedes agregar más lógica para cada código específico
+        } else {
+            message.textContent = "Código incorrecto. Inténtalo de nuevo.";
+        }
+
+        // Limpiar el campo de entrada
+        document.getElementById('secretCode').value = '';
+    });
     </script>
 </body>
 </html>
