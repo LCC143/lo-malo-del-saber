@@ -97,6 +97,29 @@
             display: block;
         }
 
+        .hacker-box {
+            background-color: #0F0; /* Verde hacker */
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin: 30px auto;
+            width: 90%;
+            max-width: 600px;
+            text-align: left;
+            display: none; /* Ocultamos inicialmente */
+        }
+
+        .code-example {
+            background-color: #000; /* Fondo negro para el código */
+            color: #0F0; /* Texto verde */
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            font-family: "Courier New", Courier, monospace;
+            white-space: pre; /* Mantiene los espacios en blanco */
+        }
+
         @media (max-width: 600px) {
             .button {
                 width: 90%;
@@ -114,6 +137,15 @@
 
     <div class="content-section" id="content"></div>
 
+    <div class="hacker-box" id="hackerBox">
+        <h2>Escribe un código</h2>
+        <div class="code-example">console.log("Hola, mundo!");</div>
+        <div class="code-example">alert("Bienvenido a nuestra página!");</div>
+        <div class="code-example">document.body.style.backgroundColor = "blue";</div>
+        <div class="code-example">fetch("https://api.example.com");</div>
+        <div class="code-example">setTimeout(() => { alert("3 segundos pasaron"); }, 3000);</div>
+    </div>
+
     <footer class="footer-section">
         <h1>Profe, si llegas a leer esto ponenos 10 🙏</h1>
         <p>&copy; 2024 Tu Nombre | 
@@ -122,32 +154,15 @@
         </p>
     </footer>
 
-    <!-- Modal de Información -->
+    <!-- Modal de información -->
     <div class="modal" id="infoModal">
-        <p>¿Quién lee esto hoy en día?</p>
-        <img src="https://media.giphy.com/media/3o6Zt6MMqOWGx98tMS/giphy.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
-    </div>
-
-    <!-- Modal de Reparto -->
-    <div class="modal" id="castModal">
         <div class="modal-header">
-            <span class="close" id="closeCastModal">&times;</span>
-            <h2>Reparto</h2>
+            <span>Modal</span>
+            <span class="close" id="closeModal">&times;</span>
         </div>
         <div class="modal-body">
-            <p>Dirección: Lautaro Cabrera</p>
-            <p>Guión: Benicio Capitani, Miguel Franco</p>
-            <p>Grabación: Federico Sosa</p>
-            <p>Edición: Lautaro Cabrera</p>
-            <p><strong>Reparto Principal:</strong></p>
-            <ul>
-                <li>Facundo Pereira como el político candidato a presidente</li>
-                <li>Mateo Rolón como el vagabundo</li>
-                <li>Valentino Germain como el narrador</li>
-            </ul>
-            <p><strong>Género:</strong> Drama Político, Thriller Social, Drama de Conciencia, Ficción Contemporánea.</p>
-            <p><strong>Clasificación:</strong> PG (Parental Guidance)</p>
-            <p><strong>Música:</strong> Por una Cabeza.</p>
+            <p>¿Quién lee esto hoy en día?</p>
+            <img src="https://media.tenor.com/T8SBWIfKcFQAAAAj/maxwell-cat.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
         </div>
     </div>
 
@@ -161,14 +176,16 @@
             });
         }
 
-        window.onload = showButtons;
+        window.onload = () => {
+            showButtons();
+            document.getElementById('hackerBox').style.display = 'block'; // Mostrar el cuadrado hacker al cargar
+        };
 
         window.addEventListener('scroll', function() {
             const scrollY = window.scrollY;
             const maxScroll = document.body.scrollHeight - window.innerHeight;
             const percentage = scrollY / maxScroll;
             const redValue = Math.floor(255 * percentage);
-            // Cambia el fondo a un degradado al desplazarse
             document.body.style.background = `linear-gradient(to bottom, white, rgb(${redValue}, 0, 0))`;
         });
 
@@ -189,60 +206,76 @@
             document.getElementById('content').innerHTML = '<h2>Extras</h2><p>Aquí irán los extras relacionados con la película.</p>';
         });
 
-        document.getElementById('castButton').addEventListener('click', function() {
-            document.getElementById('castModal').style.display = 'block'; // Mostrar modal
+        // Funcionalidad para mostrar el modal
+        function showModal() {
+            const modal = document.getElementById('infoModal');
+            modal.classList.add('show');
+            modal.style.display = 'block'; // Mostrar el modal
+
+            // Ocultar el modal después de 3 segundos
+            setTimeout(() => {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none'; // Ocultar completamente
+                }, 500); // Tiempo para la transición
+            }, 3000);
+        }
+
+        document.getElementById('termsButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            showModal();
         });
 
-        // Cerrar el modal al hacer clic en la 'X'
-        document.getElementById('closeCastModal').addEventListener('click', function() {
-            document.getElementById('castModal').style.display = 'none'; // Ocultar modal
+        document.getElementById('privacyButton').addEventListener('click', (e) => {
+            e.preventDefault();
+            showModal();
         });
 
-        // Hacer que el modal sea arrastrable
-        dragElement(document.getElementById("castModal"));
+        document.getElementById('closeModal').addEventListener('click', () => {
+            const modal = document.getElementById('infoModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none'; // Ocultar completamente
+            }, 500); // Tiempo para la transición
+        });
+
+        // Permitir arrastrar el modal
+        dragElement(document.getElementById("infoModal"));
 
         function dragElement(elmnt) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-            const header = elmnt.getElementsByClassName("modal-header")[0];
-            if (header) {
-                header.onmousedown = dragMouseDown;
-            }
+            elmnt.onmousedown = dragMouseDown;
 
             function dragMouseDown(e) {
                 e = e || window.event;
                 e.preventDefault();
+                // Obtener la posición del puntero del mouse en relación con el elemento
                 pos3 = e.clientX;
                 pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
+                // Llamar a una función cuando el mouse se mueve
                 document.onmousemove = elementDrag;
             }
 
             function elementDrag(e) {
                 e = e || window.event;
                 e.preventDefault();
+                // Calcular la nueva posición
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
+                // Establecer la nueva posición
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             }
 
             function closeDragElement() {
+                // Detener el movimiento cuando el mouse se suelta
                 document.onmouseup = null;
                 document.onmousemove = null;
             }
         }
-
-        // Para el modal de información
-        document.getElementById('termsButton').addEventListener('click', function() {
-            alert("Términos de Servicio");
-        });
-
-        document.getElementById('privacyButton').addEventListener('click', function() {
-            alert("Política de Privacidad");
-        });
     </script>
 </body>
 </html>
