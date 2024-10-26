@@ -13,12 +13,29 @@
             margin: 0;
             padding: 50px;
             height: 200vh;
-            background: linear-gradient(to bottom, white, red);
-            transition: background-color 0.5s ease;
+            background-color: white;
         }
         h1, h2 {
-            color: white;
+            color: black;
         }
+        #backButton {
+         position: fixed;
+         top: 20px;
+         left: 20px;
+         background-color: #333;
+         color: white;
+         padding: 10px 20px;
+         font-size: 18px;
+         border-radius: 5px;
+         cursor: pointer;
+         z-index: 1001;
+         transition: background-color 0.3s ease;
+        }
+
+        #backButton:hover {
+          background-color: #555;
+        }
+
         .button {
             display: none;
             background-color: #007BFF;
@@ -38,6 +55,29 @@
             display: inline-block;
             opacity: 0;
         }
+        .popupInfo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+            display: none; /* Oculto inicialmente */
+            opacity: 0; /* Transición de aparición */
+        }
+
+        .popupInfo.show {
+          display: block;
+          opacity: 1; /* Efecto de fade-in */
+        }
+
         .fade-in.show {
             opacity: 1;
             display: inline-block;
@@ -87,9 +127,14 @@
                 width: 90%;
             }
         }
+        #trailerButton {
+          color: white; /* Cambia el color del texto a blanco */
+        }
     </style>
 </head>
 <body>
+    <div id="backButton" class="button" style="display: none;" onclick="goBack()">Volver</div>
+    <img src="portada.jpg" alt="Portada del Tráiler" style="width: 70%; max-width: 300px; border-radius: 10px; margin-bottom: 20px;">
     <h1>¡Bienvenido a Nuestra Página!</h1>
     <div class="button fade-in" id="trailerButton" tabindex="0" aria-label="Ver tráiler">Acerca del Tráiler</div>
     <div class="button fade-in" id="postersButton" tabindex="0" aria-label="Ver afiches">Afiches</div>
@@ -99,12 +144,16 @@
     <div class="content-section" id="content"></div>
 
     <footer class="footer-section">
-        <h1>Profe, si llegas a leer esto ponenos 10 🙏</h1>
-        <p>&copy; 2024 Tu Nombre | 
+        <p>&copy; Lo Malo del Saber | 
             <a href="#" style="color: white;" id="termsButton">Términos de Servicio</a> | 
             <a href="#" style="color: white;" id="privacyButton">Política de Privacidad</a>
         </p>
     </footer>
+
+    <div class="popupInfo" id="infoPopup">
+        <p>¿Quién lee esto hoy en día?</p>
+        <img src="https://media.tenor.com/T8SBWIfKcFQAAAAj/maxwell-cat.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
+    </div>
 
     <!-- Modal Reparto -->
     <div class="modal-reparto" id="modalReparto">
@@ -126,6 +175,7 @@
     </div>
 
     <script>
+        // Mostrar los botones con efecto fade-in
         function showButtons() {
             const buttons = document.querySelectorAll('.fade-in');
             buttons.forEach((button, index) => {
@@ -136,12 +186,59 @@
         }
         window.onload = showButtons;
 
-        window.addEventListener('scroll', function() {
-            const scrollY = window.scrollY;
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
-            const percentage = scrollY / maxScroll;
-            const redValue = Math.floor(255 * percentage);
-            document.body.style.background = `linear-gradient(to bottom, white, rgb(${redValue}, 0, 0))`;
+        // Funcionalidad para mostrar contenido de cada botón
+        document.getElementById('trailerButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = `
+                <h2>Mira nuestro tráiler</h2>
+                <iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allowfullscreen></iframe>
+                <h3>SINOPSIS</h3>
+                <p>En un contexto de promesas y ambiciones, a mitades del siglo 21, Facundo, un carismático político en campaña, busca un cambio significativo para su nación.Durante su camino, se encuentra con un hombre pobre y profético que rechaza su ayuda, revelando el oscuro trasfondo de la corrupción en el que este político está involucrado, relacionado con el tráfico de drogas y el mercado negro.Este advierte sobre una inminente ola de inmigrantes que desabastecerá al país, responsabilizando al político por las consecuencias de sus acciones.La lucha entre el idealismo y la realidad se convierte en el eje de esta historia provocadora.</p>
+                <h4>¿En qué nos basamos?</h4>
+                <p>Para este largometraje nos inspiramos principalmente en dos obras distintas: por un lado, la obra “Edipo Rey”, escrita por el dramaturgo griego Sófocles, y por otro lado, la clásica película “Scarface” (1983), dirigida por Brian De Palma y escrita por Oliver Stone. Nos basamos en “Scarface” por su enfoque en la ambición desmedida y la inevitable caída trágica del protagonista, elementos que conectan directamente con el destino de nuestro personaje, quien, como Tony Montana, es arrastrado por su sed de poder. La conexión con “Edipo Rey” radica en la ceguera del protagonista ante las consecuencias de sus decisiones, hasta que una revelación lo enfrenta a su destino.</p>
+                <img src="https://cdn.culturagenial.com/es/imagenes/cq5dam-web-1280-1280-cke.jpg?class=article" alt="Gato girando" style="width: 100%; border-radius: 10px;">
+                <img src="https://i.ebayimg.com/images/g/0jMAAOSw68NfjJk6/s-l1600.jpg" alt="Gato girando" style="width: 100%; border-radius: 10px;">
+            `;
+        }); 
+
+        document.getElementById('postersButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = `
+                <h2>Afiches</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                    <div style="margin: 10px;">
+                        <img src="afiche1.jpg" alt="Descripción 1" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 1</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche2.jpg" alt="Descripción 2" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 2</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche3.jpg" alt="Descripción 3" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 3</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche4.jpg" alt="Descripción 4" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 4</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche5.jpg" alt="Descripción 5" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 5</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche6.jpg" alt="Descripción 6" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 6</p>
+                    </div>
+                            <div style="margin: 10px;">
+                        <img src="afiche7.jpg" alt="Descripción 7" style="width: 200px; border-radius: 10px;">
+                        <p>Descripción del afiche 7</p>
+                    </div>
+                </div>
+            `;
+        });
+
+
+        document.getElementById('extrasButton').addEventListener('click', function() {
+            document.getElementById('content').innerHTML = '<h2>Extras</h2><p>Aquí irán los extras relacionados con la película.</p>';
         });
 
         // Mostrar Modal Reparto
@@ -179,6 +276,181 @@
             isDragging = false;
             modalReparto.style.cursor = 'move';
         });
+        function showPopup() {
+            const popup = document.getElementById('infoPopup');
+            popup.classList.add('show');
+            popup.style.display = 'block';
+
+            // Oculta el popup después de 3 segundos
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 500);
+            }, 3000);
+        }
+
+        document.getElementById('termsButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            showPopup();
+        });
+
+        document.getElementById('privacyButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            showPopup();
+        });
+
+   // Mostrar el botón "Volver" y cambiar el fondo al hacer clic en cada sección
+        function showTrailer() {
+            resetBackground();
+            document.getElementById('content').innerHTML = `
+                <h2>Mira nuestro tráiler</h2>
+                <iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allowfullscreen></iframe>
+                <h3>SINOPSIS</h3>
+                <p>En un contexto de promesas y ambiciones, a mitades del siglo 21, Facundo, un carismático político en campaña, busca un cambio significativo para su nación.Durante su camino, se encuentra con un hombre pobre y profético que rechaza su ayuda, revelando el oscuro trasfondo de la corrupción en el que este político está involucrado, relacionado con el tráfico de drogas y el mercado negro.Este advierte sobre una inminente ola de inmigrantes que desabastecerá al país, responsabilizando al político por las consecuencias de sus acciones.La lucha entre el idealismo y la realidad se convierte en el eje de esta historia provocadora.</p>
+                <h4>¿En qué nos basamos?</h4>
+                <p>Para este largometraje nos inspiramos principalmente en dos obras distintas: por un lado, la obra “Edipo Rey”, escrita por el dramaturgo griego Sófocles, y por otro lado, la clásica película “Scarface” (1983), dirigida por Brian De Palma y escrita por Oliver Stone. Nos basamos en “Scarface” por su enfoque en la ambición desmedida y la inevitable caída trágica del protagonista, elementos que conectan directamente con el destino de nuestro personaje, quien, como Tony Montana, es arrastrado por su sed de poder. La conexión con “Edipo Rey” radica en la ceguera del protagonista ante las consecuencias de sus decisiones, hasta que una revelación lo enfrenta a su destino.</p>
+                <img src="https://cdn.culturagenial.com/es/imagenes/cq5dam-web-1280-1280-cke.jpg?class=article" alt="Gato girando" style="width: 10%; border-radius: 10px;">
+                <img src="https://i.ebayimg.com/images/g/0jMAAOSw68NfjJk6/s-l1600.jpg" alt="Gato girando" style="width: 10%; border-radius: 10px;">`;
+            document.body.style.background = 'linear-gradient(to bottom, black, red)';
+            toggleBackButton(true);
+        }
+
+        function showPosters() {
+            resetBackground();
+            document.getElementById('content').innerHTML = `
+                <h2>Afiches</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                    <div style="margin: 10px;">
+                        <img src="afiche1.png" alt="Descripción 1" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por:Benicio Capitani </p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche2.jpg" alt="Descripción 2" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por: Facundo Pereira</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche3.jpg" alt="Descripción 3" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por: Mateo Rolon</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche4.png" alt="Descripción 4" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por:Federico Sosa</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche5.png" alt="Descripción 5" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por:Lautaro Cabrera</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="afiche6.png" alt="Descripción 6" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por:Miguel Franco</p>
+                    </div>
+                            <div style="margin: 10px;">
+                        <img src="afiche7.png" alt="Descripción 7" style="width: 200px; border-radius: 10px;">
+                        <p>hecho por:Germain Valentino </p>
+                    </div>
+                </div>
+            `;
+            document.body.style.backgroundColor = 'orange';
+            toggleBackButton(true);
+        }
+
+        function showExtras() {
+            resetBackground();
+            document.getElementById('content').innerHTML = `
+                <h2>Extras y Descartados </h2>
+                <h3>Contenido Descartado(esta bien feo)</h3>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                    <div style="margin: 10px;">
+                        <img src="afiche8.jpg" alt="Descripción 1" style="width: 200px; border-radius: 10px;">
+                        <p>afiche descartado</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="ar.jpg" alt="Descripción 2" style="width: 200px; border-radius: 10px;">
+                        <p>decoracion descartada</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="arer.jpg" alt="Descripción 3" style="width: 200px; border-radius: 10px;">
+                        <p>afiche descartado</p>
+                    </div>
+                    <div style="margin: 10px;">
+                        <img src="boleta .jpg" alt="Descripción 4" style="width: 200px; border-radius: 10px;">
+                        <p>decoracion descartada</p>
+                    </div>
+                </div>
+
+                <div style="margin: 10px;">
+                <video width="300" controls>
+                    <source src="1017.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+                <p>1era version del trailer</p>
+                </div>
+
+                <div style="margin: 10px;">
+                <video width="300" controls>
+                    <source src="soy solo un hombre.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+                <p>soy solo un hombre</p>
+                </div>
+
+                <div style="margin: 10px;">
+                <video width="300" controls>
+                    <source src="tomatela.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+                <p>parte del trailer sin editar</p>
+                </div>
+
+                <div style="margin: 10px;">
+                <video width="300" controls>
+                    <source src="arere.mp4" type="video/mp4">
+                    Tu navegador no soporta el video.
+                </video>
+                <p>inicio descartado</p>
+                </div>
+            `;
+            animateBackground();
+            toggleBackButton(true);
+        }
+
+        // Función para mostrar u ocultar el botón "Volver"
+        function toggleBackButton(show) {
+            const backButton = document.getElementById('backButton');
+            backButton.style.display = show ? 'block' : 'none';
+        }
+
+        // Función para regresar a la pantalla principal
+        function goBack() {
+            resetBackground();
+            document.getElementById('content').innerHTML = '';
+            document.body.style.backgroundColor = 'white';
+            toggleBackButton(false);
+        }
+
+        // Función para restablecer el fondo, deteniendo cualquier animación previa
+        function resetBackground() {
+            document.body.style.background = 'white'; // Fondo blanco al resetear
+            document.body.style.backgroundColor = 'white';
+            clearInterval(colorChangeInterval); // Detener el fondo animado si estaba activo
+        }
+
+        // Animación de fondo para la sección "Extras"
+        let colorChangeInterval;
+        function animateBackground() {
+            clearInterval(colorChangeInterval); // Detener cualquier animación anterior
+            colorChangeInterval = setInterval(() => {
+                const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+                document.body.style.backgroundColor = randomColor;
+            }, 1000); // Cambiar cada segundo
+        }
+
+        // Asignar los eventos de clic
+        document.getElementById('trailerButton').addEventListener('click', showTrailer);
+        document.getElementById('postersButton').addEventListener('click', showPosters);
+        document.getElementById('extrasButton').addEventListener('click', showExtras);
+        
     </script>
 </body>
 </html>
