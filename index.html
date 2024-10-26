@@ -6,20 +6,19 @@
     <meta name="description" content="Página en construcción para una nueva película.">
     <title>Página en Construcción</title>
     <style>
+        /* Estilos Generales */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 50px;
-            height: 200vh; /* Asegura que haya suficiente espacio para desplazarse */
-            background-color: white; /* Fondo inicial blanco */
+            height: 200vh;
+            background: linear-gradient(to bottom, white, red);
             transition: background-color 0.5s ease;
         }
-
         h1, h2 {
-            color: black; /* Cambia el color del texto a negro */
+            color: white;
         }
-
         .button {
             display: none;
             background-color: #007BFF;
@@ -32,33 +31,28 @@
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.3s;
         }
-
         .button:hover {
             background-color: #0056b3;
         }
-
         .fade-in {
             display: inline-block;
             opacity: 0;
         }
-
         .fade-in.show {
             opacity: 1;
             display: inline-block;
         }
-
         .content-section {
             margin-top: 20px;
         }
-
         .footer-section {
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 20px;
             margin-top: 20px;
         }
-
-        .modal {
+        /* Modal Reparto */
+        .modal-reparto {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -67,59 +61,27 @@
             max-width: 400px;
             background: rgba(0, 0, 0, 0.9);
             color: white;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: none; /* Ocultamos inicialmente */
-            z-index: 1000;
-            cursor: move; /* Para indicar que se puede mover */
+            display: none;
+            cursor: move;
+            z-index: 1001;
         }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 10px 10px 0 0;
+        .modal-reparto h3 {
+            margin-top: 0;
         }
-
-        .close {
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            border: none;
             color: white;
-            font-size: 24px;
+            padding: 5px;
+            border-radius: 50%;
             cursor: pointer;
         }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: block;
-        }
-
-        .hacker-box {
-            background-color: #0F0; /* Verde hacker */
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            margin: 30px auto;
-            width: 90%;
-            max-width: 600px;
-            text-align: left;
-            display: none; /* Ocultamos inicialmente */
-        }
-
-        .code-example {
-            background-color: #000; /* Fondo negro para el código */
-            color: #0F0; /* Texto verde */
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-            font-family: "Courier New", Courier, monospace;
-            white-space: pre; /* Mantiene los espacios en blanco */
-        }
-
+        /* Modal Responsivo */
         @media (max-width: 600px) {
             .button {
                 width: 90%;
@@ -129,22 +91,12 @@
 </head>
 <body>
     <h1>¡Bienvenido a Nuestra Página!</h1>
-    
     <div class="button fade-in" id="trailerButton" tabindex="0" aria-label="Ver tráiler">Acerca del Tráiler</div>
     <div class="button fade-in" id="postersButton" tabindex="0" aria-label="Ver afiches">Afiches</div>
     <div class="button fade-in" id="extrasButton" tabindex="0" aria-label="Ver extras">Extras</div>
-    <div class="button fade-in" id="castButton" tabindex="0" aria-label="Ver reparto">Reparto</div>
+    <div class="button fade-in" id="repartoButton" tabindex="0" aria-label="Ver reparto">Reparto</div>
 
     <div class="content-section" id="content"></div>
-
-    <div class="hacker-box" id="hackerBox">
-        <h2>Escribe un código</h2>
-        <div class="code-example">console.log("Hola, mundo!");</div>
-        <div class="code-example">alert("Bienvenido a nuestra página!");</div>
-        <div class="code-example">document.body.style.backgroundColor = "blue";</div>
-        <div class="code-example">fetch("https://api.example.com");</div>
-        <div class="code-example">setTimeout(() => { alert("3 segundos pasaron"); }, 3000);</div>
-    </div>
 
     <footer class="footer-section">
         <h1>Profe, si llegas a leer esto ponenos 10 🙏</h1>
@@ -154,25 +106,24 @@
         </p>
     </footer>
 
-    <!-- Modal de información -->
-    <div class="modal" id="infoModal">
-        <div class="modal-header">
-            <span>Modal</span>
-            <span class="close" id="closeModal">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p>¿Quién lee esto hoy en día?</p>
-            <img src="https://media.tenor.com/T8SBWIfKcFQAAAAj/maxwell-cat.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
-        </div>
+    <!-- Modal Reparto -->
+    <div class="modal-reparto" id="modalReparto">
+        <button class="close-btn" id="closeReparto">&times;</button>
+        <h3>Reparto de la Película</h3>
+        <p><strong>Dirección:</strong> Lautaro Cabrera</p>
+        <p><strong>Guión:</strong> Benicio Capitani, Miguel Franco</p>
+        <p><strong>Grabación:</strong> Federico Sosa</p>
+        <p><strong>Edición:</strong> Lautaro Cabrera</p>
+        <p><strong>Reparto Principal:</strong></p>
+        <ul>
+            <li>Facundo Pereira como el político candidato a presidente</li>
+            <li>Mateo Rolón como el vagabundo</li>
+            <li>Valentino Germain como el narrador</li>
+        </ul>
+        <p><strong>Género:</strong> Drama Político, Thriller Social, Drama de Conciencia, Ficción Contemporánea</p>
+        <p><strong>Clasificación:</strong> PG (Parental Guidance)</p>
+        <p><strong>Música:</strong> Por una Cabeza</p>
     </div>
-
-    <div class="hacker-box">
-    <h2>Escribe tu código </h2>
-    <input type="text" id="secretCode" placeholder="Código secreto..." />
-    <button id="submitCode">Enviar</button>
-    <p id="codeMessage"></p>
-    </div>
-
 
     <script>
         function showButtons() {
@@ -183,11 +134,7 @@
                 }, index * 500);
             });
         }
-
-        window.onload = () => {
-            showButtons();
-            document.getElementById('hackerBox').style.display = 'block'; // Mostrar el cuadrado hacker al cargar
-        };
+        window.onload = showButtons;
 
         window.addEventListener('scroll', function() {
             const scrollY = window.scrollY;
@@ -197,117 +144,41 @@
             document.body.style.background = `linear-gradient(to bottom, white, rgb(${redValue}, 0, 0))`;
         });
 
-        document.getElementById('trailerButton').addEventListener('click', function() {
-            document.getElementById('content').innerHTML = `
-                <h2>Mira nuestro tráiler</h2>
-                <iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allowfullscreen></iframe>
-                <p>¡Descubre el emocionante mundo de nuestra nueva película! Acompáñanos en una aventura llena de acción, emoción y giros inesperados.</p>
-                <img src="https://example.com/tu-imagen.jpg" alt="Imagen de la película" style="width: 80%; max-width: 600px; border-radius: 10px; margin-top: 20px;">
-            `;
+        // Mostrar Modal Reparto
+        const repartoButton = document.getElementById('repartoButton');
+        const modalReparto = document.getElementById('modalReparto');
+        const closeReparto = document.getElementById('closeReparto');
+
+        repartoButton.addEventListener('click', () => {
+            modalReparto.style.display = 'block';
         });
 
-        document.getElementById('postersButton').addEventListener('click', function() {
-            document.getElementById('content').innerHTML = '<h2>Afiches</h2><p>Aquí irán los afiches de la película.</p>';
+        closeReparto.addEventListener('click', () => {
+            modalReparto.style.display = 'none';
         });
 
-        document.getElementById('extrasButton').addEventListener('click', function() {
-            document.getElementById('content').innerHTML = '<h2>Extras</h2><p>Aquí irán los extras relacionados con la película.</p>';
+        // Hacer que el modal sea arrastrable
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        modalReparto.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            offsetX = event.clientX - modalReparto.getBoundingClientRect().left;
+            offsetY = event.clientY - modalReparto.getBoundingClientRect().top;
+            modalReparto.style.cursor = 'grabbing';
         });
 
-        // Funcionalidad para mostrar el modal
-        function showModal() {
-            const modal = document.getElementById('infoModal');
-            modal.classList.add('show');
-            modal.style.display = 'block'; // Mostrar el modal
-
-            // Ocultar el modal después de 3 segundos
-            setTimeout(() => {
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.style.display = 'none'; // Ocultar completamente
-                }, 500); // Tiempo para la transición
-            }, 3000);
-        }
-
-        document.getElementById('termsButton').addEventListener('click', (e) => {
-            e.preventDefault();
-            showModal();
-        });
-
-        document.getElementById('privacyButton').addEventListener('click', (e) => {
-            e.preventDefault();
-            showModal();
-        });
-
-        document.getElementById('closeModal').addEventListener('click', () => {
-            const modal = document.getElementById('infoModal');
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none'; // Ocultar completamente
-            }, 500); // Tiempo para la transición
-        });
-
-        // Permitir arrastrar el modal
-        dragElement(document.getElementById("infoModal"));
-
-        function dragElement(elmnt) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            elmnt.onmousedown = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // Obtener la posición del puntero del mouse en relación con el elemento
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                // Llamar a una función cuando el mouse se mueve
-                document.onmousemove = elementDrag;
+        document.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                modalReparto.style.left = `${event.clientX - offsetX}px`;
+                modalReparto.style.top = `${event.clientY - offsetY}px`;
             }
+        });
 
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                // Calcular la nueva posición
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // Establecer la nueva posición
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                // Detener el movimiento cuando el mouse se suelta
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
-         const secretCodes = {
-        "codigo1": "¡Código 1 activado!",
-        "codigo2": "¡Código 2 activado!",
-        "codigo3": "¡Código 3 activado!",
-        "codigo4": "¡Código 4 activado!",
-        "codigo5": "¡Código 5 activado!"
-    };
-
-    document.getElementById('submitCode').addEventListener('click', function() {
-        const codeInput = document.getElementById('secretCode').value;
-        const message = document.getElementById('codeMessage');
-
-        if (secretCodes[codeInput]) {
-            message.textContent = secretCodes[codeInput];
-            // Aquí puedes agregar más lógica para cada código específico
-        } else {
-            message.textContent = "Código incorrecto. Inténtalo de nuevo.";
-        }
-
-        // Limpiar el campo de entrada
-        document.getElementById('secretCode').value = '';
-    });
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            modalReparto.style.cursor = 'move';
+        });
     </script>
 </body>
 </html>
-
-
