@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página en construcción para una nueva película.">
     <title>Página en Construcción</title>
     <style>
         body {
@@ -10,18 +11,17 @@
             text-align: center;
             margin: 0;
             padding: 50px;
-            height: 200vh; /* Aumenta la altura de la página para permitir el desplazamiento */
-            background-color: black; /* Color inicial del fondo */
-            transition: background-color 0.5s ease; /* Transición suave al cambiar de color */
+            height: 200vh;
+            background: linear-gradient(to bottom, black, red); /* Degradado de negro a rojo */
+            transition: background-color 0.5s ease;
         }
 
         h1, h2 {
-            color: white; /* Cambia el color de los encabezados a blanco para mayor contraste */
+            color: white;
         }
 
-        /* Estilo para los botones */
         .button {
-            display: none; /* Ocultamos los botones inicialmente */
+            display: none;
             background-color: #007BFF;
             color: white;
             border: none;
@@ -30,41 +30,47 @@
             margin: 10px;
             border-radius: 5px;
             cursor: pointer;
-            transition: opacity 0.5s ease; /* Transición para el efecto fade-in */
+            transition: opacity 0.5s ease, background-color 0.3s;
         }
 
-        /* Fade-in effect */
+        .button:hover {
+            background-color: #0056b3;
+        }
+
         .fade-in {
-            display: inline-block; /* Cambiamos a inline-block para aplicar el efecto */
-            opacity: 0; /* Inicialmente invisibles */
+            display: inline-block;
+            opacity: 0;
         }
 
         .fade-in.show {
-            opacity: 1; /* Hacemos visibles los botones */
-            display: inline-block; /* Aseguramos que se muestren */
+            opacity: 1;
+            display: inline-block;
         }
 
-        /* Sección de contenido */
         .content-section {
             margin-top: 20px;
         }
 
-        /* Estilo para la sección de footer */
         .footer-section {
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 20px;
             margin-top: 20px;
         }
+
+        @media (max-width: 600px) {
+            .button {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>¡Bienvenido a Nuestra Página!</h1>
-
-    <!-- Botones -->
-    <div class="button fade-in" id="trailerButton">Acerca del Tráiler</div>
-    <div class="button fade-in" id="postersButton">Afiches</div>
-    <div class="button fade-in" id="extrasButton">Extras</div>
+    
+    <div class="button fade-in" id="trailerButton" tabindex="0" aria-label="Ver tráiler">Acerca del Tráiler</div>
+    <div class="button fade-in" id="postersButton" tabindex="0" aria-label="Ver afiches">Afiches</div>
+    <div class="button fade-in" id="extrasButton" tabindex="0" aria-label="Ver extras">Extras</div>
 
     <div class="content-section" id="content"></div>
 
@@ -74,33 +80,25 @@
     </footer>
 
     <script>
-        // Función para mostrar los botones con efecto fade-in
         function showButtons() {
             const buttons = document.querySelectorAll('.fade-in');
             buttons.forEach((button, index) => {
                 setTimeout(() => {
                     button.classList.add('show');
-                }, index * 500); // 500 ms entre cada botón
+                }, index * 500);
             });
         }
 
-        // Llamamos a la función cuando la página se carga
         window.onload = showButtons;
 
-        // Cambiar el color del fondo al desplazarse
         window.addEventListener('scroll', function() {
             const scrollY = window.scrollY;
             const maxScroll = document.body.scrollHeight - window.innerHeight;
-            const percentage = scrollY / maxScroll; // Porcentaje de desplazamiento
-            
-            // Calcular el color rojo en base al porcentaje
-            const redValue = Math.floor(255 * percentage); // De 0 a 255
-            
-            // Aplicar el nuevo color de fondo
-            document.body.style.backgroundColor = `rgb(${redValue}, 0, 0)`; // De negro (0,0,0) a rojo (255,0,0)
+            const percentage = scrollY / maxScroll;
+            const redValue = Math.floor(255 * percentage);
+            document.body.style.background = `linear-gradient(to bottom, black, rgb(${redValue}, 0, 0))`;
         });
 
-        // Funcionalidad de los botones
         document.getElementById('trailerButton').addEventListener('click', function() {
             document.getElementById('content').innerHTML = '<h2>Mira nuestro tráiler</h2><iframe width="80%" height="400" src="https://www.youtube.com/embed/uDZvbvpmZ-w" frameborder="0" allowfullscreen></iframe>';
         });
@@ -115,4 +113,3 @@
     </script>
 </body>
 </html>
-
