@@ -60,24 +60,41 @@
 
         .modal {
             position: fixed;
-            bottom: -100px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             width: 90%;
             max-width: 400px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
-            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            transition: bottom 0.5s;
-            z-index: 1000;
             display: none; /* Ocultamos inicialmente */
+            z-index: 1000;
+            cursor: move; /* Para indicar que se puede mover */
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .close {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
         }
 
         .modal.show {
             display: block;
-            bottom: 20px; /* Posición final */
         }
 
         @media (max-width: 600px) {
@@ -93,6 +110,7 @@
     <div class="button fade-in" id="trailerButton" tabindex="0" aria-label="Ver tráiler">Acerca del Tráiler</div>
     <div class="button fade-in" id="postersButton" tabindex="0" aria-label="Ver afiches">Afiches</div>
     <div class="button fade-in" id="extrasButton" tabindex="0" aria-label="Ver extras">Extras</div>
+    <div class="button fade-in" id="castButton" tabindex="0" aria-label="Ver reparto">Reparto</div>
 
     <div class="content-section" id="content"></div>
 
@@ -104,10 +122,33 @@
         </p>
     </footer>
 
-    <!-- Modal -->
+    <!-- Modal de Información -->
     <div class="modal" id="infoModal">
         <p>¿Quién lee esto hoy en día?</p>
-        <img src="https://media.tenor.com/T8SBWIfKcFQAAAAj/maxwell-cat.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
+        <img src="https://media.giphy.com/media/3o6Zt6MMqOWGx98tMS/giphy.gif" alt="Gato girando" style="width: 100%; border-radius: 10px;">
+    </div>
+
+    <!-- Modal de Reparto -->
+    <div class="modal" id="castModal">
+        <div class="modal-header">
+            <span class="close" id="closeCastModal">&times;</span>
+            <h2>Reparto</h2>
+        </div>
+        <div class="modal-body">
+            <p>Dirección: Lautaro Cabrera</p>
+            <p>Guión: Benicio Capitani, Miguel Franco</p>
+            <p>Grabación: Federico Sosa</p>
+            <p>Edición: Lautaro Cabrera</p>
+            <p><strong>Reparto Principal:</strong></p>
+            <ul>
+                <li>Facundo Pereira como el político candidato a presidente</li>
+                <li>Mateo Rolón como el vagabundo</li>
+                <li>Valentino Germain como el narrador</li>
+            </ul>
+            <p><strong>Género:</strong> Drama Político, Thriller Social, Drama de Conciencia, Ficción Contemporánea.</p>
+            <p><strong>Clasificación:</strong> PG (Parental Guidance)</p>
+            <p><strong>Música:</strong> Por una Cabeza.</p>
+        </div>
     </div>
 
     <script>
@@ -147,30 +188,61 @@
             document.getElementById('content').innerHTML = '<h2>Extras</h2><p>Aquí irán los extras relacionados con la película.</p>';
         });
 
-        // Funcionalidad para mostrar el modal
-        function showModal() {
-            const modal = document.getElementById('infoModal');
-            modal.classList.add('show');
-            modal.style.display = 'block'; // Mostrar el modal
-
-            // Ocultar el modal después de 3 segundos
-            setTimeout(() => {
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.style.display = 'none'; // Ocultar completamente
-                }, 500); // Tiempo para la transición
-            }, 3000);
-        }
-
-        document.getElementById('termsButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-            showModal();
+        document.getElementById('castButton').addEventListener('click', function() {
+            document.getElementById('castModal').style.display = 'block'; // Mostrar modal
         });
 
-        document.getElementById('privacyButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
-            showModal();
+        // Cerrar el modal al hacer clic en la 'X'
+        document.getElementById('closeCastModal').addEventListener('click', function() {
+            document.getElementById('castModal').style.display = 'none'; // Ocultar modal
+        });
+
+        // Hacer que el modal sea arrastrable
+        dragElement(document.getElementById("castModal"));
+
+        function dragElement(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            const header = elmnt.getElementsByClassName("modal-header")[0];
+            if (header) {
+                header.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Para el modal de información
+        document.getElementById('termsButton').addEventListener('click', function() {
+            alert("Términos de Servicio");
+        });
+
+        document.getElementById('privacyButton').addEventListener('click', function() {
+            alert("Política de Privacidad");
         });
     </script>
 </body>
 </html>
+
