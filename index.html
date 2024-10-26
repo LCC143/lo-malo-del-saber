@@ -11,13 +11,13 @@
             text-align: center;
             margin: 0;
             padding: 50px;
-            height: 200vh;
-            background: linear-gradient(to bottom, black, red);
+            height: 200vh; /* Asegura que haya suficiente espacio para desplazarse */
+            background-color: white; /* Fondo inicial blanco */
             transition: background-color 0.5s ease;
         }
 
         h1, h2 {
-            color: white;
+            color: black; /* Cambia el color del texto a negro */
         }
 
         .button {
@@ -168,7 +168,8 @@
             const maxScroll = document.body.scrollHeight - window.innerHeight;
             const percentage = scrollY / maxScroll;
             const redValue = Math.floor(255 * percentage);
-            document.body.style.background = `linear-gradient(to bottom, black, rgb(${redValue}, 0, 0))`;
+            // Cambia el fondo a un degradado al desplazarse
+            document.body.style.background = `linear-gradient(to bottom, white, rgb(${redValue}, 0, 0))`;
         });
 
         document.getElementById('trailerButton').addEventListener('click', function() {
@@ -223,7 +224,7 @@
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
-                pos4 = e.clientY
+                pos4 = e.clientY;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             }
@@ -245,4 +246,5 @@
     </script>
 </body>
 </html>
+
 
